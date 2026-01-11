@@ -28,14 +28,23 @@ npm run build
 ### 2. Configure Auth0 CLI
 
 ```bash
+# Check Auth0 CLI version
+auth0 --version
+
 # Login to Auth0
 auth0 login
 
-# Verify authentication
+# Verify authentication and list tenants
 auth0 tenants list
+
+# Select tenant if multiple (default shown with →)
+# Use: auth0 tenants use TENANT_NAME
+
+# Verify ACUL commands are available
+auth0 acul --help
 ```
 
-**Why:** Authenticates with your Auth0 tenant to enable configuration management via CLI.
+**Why:** Authenticates with your Auth0 tenant to enable configuration management via CLI. Verifying commands ensures you have the correct CLI version with ACUL support.
 
 ### 3. Create Screen Schema
 
@@ -82,33 +91,89 @@ npm run build
 
 **Why:** Generates optimized production assets in `dist/` with content-hashed filenames for cache busting.
 
-### 3. Test Locally (Optional)
+### 3. Development Modes
+
+#### Option A: Local Development (Mock Data)
 
 ```bash
 # Start local dev server with context inspector
 npm run dev
+```
 
-# Or serve built files
+**Why:** Uses mock data from `public/screens/` for local development without requiring Auth0 connection.
+
+#### Option B: Connected Mode (Live Testing)
+
+```bash
+# Sync with Auth0 in connected mode
+auth0 acul dev --connected --screens login
+```
+
+**What this does:**
+- Runs initial build (`npm run build`)
+- Starts local server on port 55444 (or prompts for port)
+- Watches `dist/` directory for changes
+- Automatically patches Auth0 when assets change
+- Optionally runs `npm run build:watch` in background
+
+**Why:** Allows real-time testing with your Auth0 tenant. Changes are automatically synced, useful for reviewing live fixes before final deployment.
+
+**Note:** Press `Ctrl+C` to stop. You'll be prompted to restore original settings.
+
+#### Option C: Serve Built Files
+
+```bash
+# Serve built files locally
 npx serve dist -p 8080 --cors
 ```
 
-**Why:** Allows testing changes locally before deploying to Auth0.
+**Why:** Tests production build locally before deploying.
 
-### 4. Update Configuration
-
-After building, update `acul_config/login.json` with new asset filenames:
+### 4. Test Locally (Optional)
 
 ```bash
-# Check new asset filenames
+# Option A: Start local dev server with context inspector
+npm run dev
+
+# Option B: Serve built files
+npx serve dist -p 8080 --cors
+
+# Option C: Sync with Auth0 in connected mode (for live testing)
+auth0 acul dev --connected --screens login
+```
+
+**Why:** 
+- `npm run dev` - Uses mock data for local development without Auth0
+- `npx serve` - Tests built production files locally
+- `auth0 acul dev --connected` - Syncs local changes to Auth0 tenant in real-time, watches dist/ folder and auto-patches assets when changes are detected. Useful for reviewing live fixes before final deployment.
+
+### 5. Update Configuration with Build Files
+
+After building, you must update `acul_config/login.json` with new asset filenames:
+
+```bash
+# Step 1: Check new asset filenames after build
 ls -la dist/assets/shared/*.css
 ls -la dist/assets/login/*.js
 ls -la dist/assets/main.*.js
 
-# Update acul_config/login.json with new hashes
+# Step 2: Get current Auth0 config (to preserve other settings)
+auth0 acul config get login
+# This downloads current config to acul_config/login.json
+
+# Step 3: Update acul_config/login.json with new asset hashes
+# Edit the file and update these URLs:
+# - CSS: style.OLD_HASH.css → style.NEW_HASH.css
+# - JS files: Check all script src attributes match new filenames
 # Example: style.Cixsc2g7.css → style.DAIIjM32.css
+
+# Step 4: Verify the updated config
+cat acul_config/login.json | grep -E "(href|src)" | grep "assets"
 ```
 
-**Why:** Asset filenames include content hashes that change when code is modified. The config must reference the correct filenames.
+**Why:** Asset filenames include content hashes that change when code is modified. The config must reference the correct filenames, otherwise Auth0 will try to load non-existent files (404 errors).
+
+**Important:** Always run `auth0 acul config get login` first to download the current config, then update only the asset URLs. This preserves filters, context_configuration, and other important settings.
 
 ---
 
@@ -138,14 +203,20 @@ auth0 acul config list
 ### 3. Test Login Flow
 
 ```bash
+# Get help on test login command
+auth0 test login --help
+
 # Test with organization (required for B2B clients)
 auth0 test login CLIENT_ID -o ORG_ID
 
 # Example:
 auth0 test login 4gVAwy4Kw2kKrnLUhL9Z7VBGg4edBQaU -o org_FBFTwOEuv0ZStuGG
+
+# Alternative: Test without organization (if client doesn't require it)
+auth0 test login CLIENT_ID
 ```
 
-**Why:** Creates a valid Auth0 transaction and opens browser to test your custom login screen. Without organization parameter, you'll get "invalid_request" errors.
+**Why:** Creates a valid Auth0 transaction and opens browser to test your custom login screen. Without organization parameter (for B2B clients), you'll get "invalid_request - parameter organization is required" errors.
 
 ### 4. Check Browser Console
 
@@ -279,19 +350,26 @@ npm run build
 
 # 3. Check new asset hashes
 ls -la dist/assets/shared/*.css
+ls -la dist/assets/login/*.js
+ls -la dist/assets/main.*.js
 
-# 4. Update config with new hashes
-# Edit acul_config/login.json
+# 4. Get current Auth0 config (preserves settings)
+auth0 acul config get login
 
-# 5. Test locally (optional)
+# 5. Update config with new hashes
+# Edit acul_config/login.json - update all asset URLs with new hashes
+
+# 6. Test locally (optional)
 npm run dev
+# OR use connected mode for live testing:
+# auth0 acul dev --connected --screens login
 
-# 6. Deploy
+# 7. Deploy to GitHub
 git add -A
 git commit -m "Update login screen"
 git push origin main
 
-# 7. Update gh-pages
+# 8. Update gh-pages branch
 git checkout gh-pages
 git checkout main -- dist/
 cp -r dist/* .
@@ -301,10 +379,13 @@ git commit -m "Deploy assets"
 git push origin gh-pages
 git checkout main
 
-# 8. Update Auth0
+# 9. Update Auth0 configuration
 auth0 acul config set login --file acul_config/login.json
 
-# 9. Test
+# 10. Verify config was updated
+auth0 acul config get login
+
+# 11. Test login screen
 auth0 test login CLIENT_ID -o ORG_ID
 ```
 

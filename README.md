@@ -26,11 +26,13 @@ npx serve dist -p 8080 --cors
 The development server includes **ul-context-inspector** - a tool for local development without an Auth0 tenant.
 
 **What it does:**
+
 - Simulates Auth0's Universal Login context using local mock JSON files
 - Enables instant screen switching, variant testing, and context editing
 - Automatically removed from production builds
 
 **Development vs Production:**
+
 - **Development**: Uses local mocks from `public/screens/` (no Auth0 required)
 - **Production**: Uses real Auth0 context from `window.universal_login_context`
 
@@ -43,6 +45,7 @@ mkdir -p public/screens/login/login
 ```
 
 Add `default.json` and `with-errors.json`:
+
 ```json
 {
   "screen": {
@@ -54,6 +57,7 @@ Add `default.json` and `with-errors.json`:
 ```
 
 Register in `public/manifest.json`:
+
 ```json
 {
   "versions": ["v2", "v0"],
@@ -139,3 +143,7 @@ This sample includes a GitHub Actions workflow for automated deployment to AWS S
 ## Documentation
 
 For detailed documentation, refer to the main repository README and Auth0 ACUL documentation.
+
+- 1. auth0 acul config get login [get acul config]
+- 2. auth0 acul dev
+- 3. auth0 acul config generate <screen>

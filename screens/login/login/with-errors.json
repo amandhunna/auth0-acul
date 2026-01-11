@@ -21,8 +21,12 @@
     "name": "login"
   },
   "tenant": {
-    "enabled_factors": ["otp"],
-    "enabled_locales": ["en"],
+    "enabled_factors": [
+      "otp"
+    ],
+    "enabled_locales": [
+      "en"
+    ],
     "friendly_name": "Russel, Bernier and Okuneva",
     "mfa_options": {
       "pick_authenticator_enabled": true
@@ -108,3 +112,4 @@
     }
   }
 }
+

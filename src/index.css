@@ -201,11 +201,11 @@ Created to support alignment related utlities like justify, text-align etc with 
   /* Page Background */
   --ul-theme-page-bg-page-layout: center;
   --ul-theme-page-bg-background-color: #000000;
-  --ul-theme-page-bg-background-image-url: url("/background.png");
+  --ul-theme-page-bg-background-image-url: url("https://cdn.jsdelivr.net/gh/amandhunna/auth0-acul@gh-pages/background.png");
 
   /* Widget */
   --ul-theme-widget-logo-position: center;
-  --ul-theme-widget-logo-url: "/client.png";
+  --ul-theme-widget-logo-url: "https://cdn.jsdelivr.net/gh/amandhunna/auth0-acul@gh-pages/client.png";
   --ul-theme-widget-logo-height: 52px;
   --ul-theme-widget-header-text-alignment: center;
   --ul-theme-widget-social-buttons-layout: bottom;

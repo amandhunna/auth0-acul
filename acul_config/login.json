@@ -1,8 +1,68 @@
 {
+  "tenant": "aidash-platform-dev",
+  "prompt": "login",
+  "screen": "login",
+  "rendering_mode": "advanced",
   "context_configuration": [],
   "default_head_tags_disabled": false,
-  "filters": {},
-  "head_tags": [],
-  "rendering_mode": "standard",
-  "use_page_template": false
+  "head_tags": [
+    {
+      "attributes": {
+        "defer": true,
+        "src": "http://localhost:55444/assets/shared/common.RLg4aLVp.js",
+        "type": "module"
+      },
+      "tag": "script"
+    },
+    {
+      "attributes": {
+        "defer": true,
+        "src": "http://localhost:55444/assets/shared/react-vendor.Dx15oN3a.js",
+        "type": "module"
+      },
+      "tag": "script"
+    },
+    {
+      "attributes": {
+        "href": "http://localhost:55444/assets/shared/style.C2YULJCW.css",
+        "rel": "stylesheet"
+      },
+      "tag": "link"
+    },
+    {
+      "attributes": {
+        "defer": true,
+        "src": "http://localhost:55444/assets/shared/vendor.BzYZd13V.js",
+        "type": "module"
+      },
+      "tag": "script"
+    },
+    {
+      "attributes": {
+        "defer": true,
+        "src": "http://localhost:55444/assets/login/index.C9ms3Bb8.js",
+        "type": "module"
+      },
+      "tag": "script"
+    },
+    {
+      "attributes": {
+        "defer": true,
+        "src": "http://localhost:55444/assets/main.C9Ns-RG0.js",
+        "type": "module"
+      },
+      "tag": "script"
+    }
+  ],
+  "filters": {
+    "match_type": "includes_any",
+    "clients": [
+      {
+        "id": "4gVAwy4Kw2kKrnLUhL9Z7VBGg4edBQaU"
+      }
+    ],
+    "organizations": [],
+    "domains": []
+  },
+  "use_page_template": true
 }

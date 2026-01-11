@@ -1,10 +1,8 @@
 import { cn } from "@/lib/utils";
 import { extractTokenValue } from "@/utils/helpers/tokenUtils";
 
-import { Avatar, AvatarImage } from "./ui/avatar";
-
 export interface ULThemeLogoProps
-  extends React.HTMLAttributes<HTMLSpanElement> {
+  extends React.ImgHTMLAttributes<HTMLImageElement> {
   /**
    * Optional image url of the logo.
    */
@@ -29,24 +27,23 @@ const ULThemeLogo = ({
   const themedLogoSrcValue = extractTokenValue("--ul-theme-widget-logo-url");
   const isLogoHidden =
     extractTokenValue("--ul-theme-widget-logo-position") === "none";
-  const themedStylesAvatar = "flex flex-wrap justify-widget-logo";
-  const themedStylesAvatarImg = "h-(--height-widget-logo)";
+  const themedStylesContainer = "flex flex-wrap justify-widget-logo";
+  const themedStylesImg =
+    "h-(--height-widget-logo) w-auto object-contain object-center";
   const logoSrc = themedLogoSrcValue || imageUrl;
 
   return (
     !isLogoHidden && (
-      <div className={cn(themedStylesAvatar, className)}>
-        <Avatar className="size-auto rounded-none">
-          <AvatarImage
-            src={logoSrc}
-            alt={altText}
-            className={cn(themedStylesAvatarImg)}
-            loading="eager" // Default should load an image immediately
-            decoding="async" // Decode the image asynchronously
-            fetchPriority="high" // Fetch the image at a high priority
-            {...rest}
-          />
-        </Avatar>
+      <div className={cn(themedStylesContainer, className)}>
+        <img
+          src={logoSrc}
+          alt={altText}
+          className={cn(themedStylesImg)}
+          loading="eager" // Default should load an image immediately
+          decoding="async" // Decode the image asynchronously
+          fetchPriority="high" // Fetch the image at a high priority
+          {...rest}
+        />
       </div>
     )
   );

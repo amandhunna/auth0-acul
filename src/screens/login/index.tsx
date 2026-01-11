@@ -39,10 +39,7 @@ function LoginScreen() {
 
   return (
     // Applying UDS theme overrides using the "theme-universal" class
-    <ULThemePageLayout
-      className="theme-universal"
-      style={{ backgroundColor: "#d89696" }}
-    >
+    <ULThemePageLayout className="theme-universal">
       <ULThemeCard className="w-full max-w-[400px] gap-0">
         <Header />
         {socialLoginAlignment === "top" && renderSocialLogins("top")}

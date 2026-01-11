@@ -18,6 +18,7 @@ Created to support alignment related utlities like justify, text-align etc with 
   /** Custom Utility to handle page layout alignment **/
   .justify-page-layout {
     justify-content: var(--ul-theme-page-bg-page-layout);
+    background-repeat: round;
   }
 
   /** Custom Utility to handle text header alignment **/
@@ -200,11 +201,11 @@ Created to support alignment related utlities like justify, text-align etc with 
   /* Page Background */
   --ul-theme-page-bg-page-layout: center;
   --ul-theme-page-bg-background-color: #000000;
-  --ul-theme-page-bg-background-image-url: none;
+  --ul-theme-page-bg-background-image-url: url("/background.png");
 
   /* Widget */
   --ul-theme-widget-logo-position: center;
-  --ul-theme-widget-logo-url: "https://cdn.auth0.com/blog/auth0_by_okta_logo_black.png";
+  --ul-theme-widget-logo-url: "/client.png";
   --ul-theme-widget-logo-height: 52px;
   --ul-theme-widget-header-text-alignment: center;
   --ul-theme-widget-social-buttons-layout: bottom;
@@ -265,8 +266,6 @@ Created to support alignment related utlities like justify, text-align etc with 
 
 body {
   margin: 0;
-  background-color: var(--ul-theme-page-bg-background-color);
-  background-image: var(--ul-theme-page-bg-background-image-url);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

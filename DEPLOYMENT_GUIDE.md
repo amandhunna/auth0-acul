@@ -3,6 +3,7 @@
 A comprehensive guide for initializing, modifying, debugging, and deploying Auth0 Advanced Customizations for Universal Login (ACUL) screens.
 
 ## Table of Contents
+
 1. [Initialization](#initialization)
 2. [Modification & Development](#modification--development)
 3. [Debugging](#debugging)
@@ -78,6 +79,7 @@ auth0 acul config get login
 ### 1. Make Code Changes
 
 Edit files in `src/screens/login/`:
+
 - `index.tsx` - Main screen component
 - `components/` - Screen-specific components
 - `hooks/useLoginManager.ts` - Login logic
@@ -110,6 +112,7 @@ auth0 acul dev --connected --screens login
 ```
 
 **What this does:**
+
 - Runs initial build (`npm run build`)
 - Starts local server on port 55444 (or prompts for port)
 - Watches `dist/` directory for changes
@@ -142,7 +145,8 @@ npx serve dist -p 8080 --cors
 auth0 acul dev --connected --screens login
 ```
 
-**Why:** 
+**Why:**
+
 - `npm run dev` - Uses mock data for local development without Auth0
 - `npx serve` - Tests built production files locally
 - `auth0 acul dev --connected` - Syncs local changes to Auth0 tenant in real-time, watches dist/ folder and auto-patches assets when changes are detected. Useful for reviewing live fixes before final deployment.
@@ -221,6 +225,7 @@ auth0 test login CLIENT_ID
 ### 4. Check Browser Console
 
 When testing, open browser DevTools (F12):
+
 - **Console tab:** Check for JavaScript errors
 - **Network tab:** Verify all assets load (status 200)
 - **Elements tab:** Confirm custom scripts are injected in `<head>`
@@ -230,14 +235,17 @@ When testing, open browser DevTools (F12):
 ### 5. Common Issues
 
 **Error: "invalid_request - parameter organization is required"**
+
 - **Cause:** Client requires organization parameter (B2B setup)
 - **Fix:** Include `-o ORG_ID` in test command or add `?organization=ORG_ID` to authorize URL
 
 **Error: "Oops!, something went wrong"**
+
 - **Cause:** Custom scripts not loading (error page doesn't inject head_tags)
 - **Fix:** Test with valid transaction using `auth0 test login` command
 
 **Assets return 404**
+
 - **Cause:** Assets not pushed to gh-pages branch or wrong filenames in config
 - **Fix:** Verify gh-pages branch has latest dist files and config has correct hashes
 
@@ -315,6 +323,7 @@ auth0 acul config set login --file acul_config/login.json
 ### Option 2: AWS S3 + CloudFront (Production)
 
 #### Prerequisites
+
 - AWS account with S3 bucket
 - CloudFront distribution (optional but recommended)
 - GitHub Actions secrets configured
@@ -327,6 +336,7 @@ git push origin main
 ```
 
 **Why:** GitHub Actions workflow automatically:
+
 1. Builds the project
 2. Uploads to S3
 3. Updates Auth0 configuration
@@ -440,4 +450,3 @@ project/
 - **Auth0 CLI Docs:** https://github.com/auth0/auth0-cli
 - **ACUL Documentation:** https://auth0.com/docs/customize/login-pages/advanced-customizations
 - **jsDelivr CDN:** https://www.jsdelivr.com/
-
